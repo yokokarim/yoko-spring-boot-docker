@@ -8,13 +8,13 @@ This repository for Java Spring **Testing Purpose**.
 On Linux Systems, follow this command below.
 
 ```
-./mvnw package
+./mvnw clean install
 ```
 
 On Windows Systems, follow this command below.
 
 ```
-./mvnw.cmd package
+./mvnw.cmd clean install
 ```
 
 ## Running Apps Manually on local Machine
