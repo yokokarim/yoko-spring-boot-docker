@@ -5,10 +5,16 @@ This repository for Java Spring **Testing Purpose**.
 
 ## Build Jar File
 
-Follow this command below.
+On Linux Systems, follow this command below.
 
 ```
-mvp package
+./mvnw package
+```
+
+On Windows Systems, follow this command below.
+
+```
+./mvnw.cmd package
 ```
 
 ## Running Apps Manually on local Machine
