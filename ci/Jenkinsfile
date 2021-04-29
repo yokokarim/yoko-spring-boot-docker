@@ -1,0 +1,53 @@
+pipeline {
+
+  environment {
+  reponame = yoko-spring-boot-docker
+  branch = master
+  }
+
+  stages {
+    stage ('Checkout') {
+      steps {
+        try {
+          checkout([$class: 'GitSCM', branches: [[name: """${branch}"""]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'yoko_git', name: """${reponame}""", url: """git@github.com:yokokarim/${reponame}.git"""]]])
+            currentBuild.result = 'SUCCESS'
+        } catch(e) {
+            currentBuild.result = 'FAILURE'
+            throw e
+          }
+      }
+    }
+
+    stage ('Build Maven') {
+      when {
+        expression {
+          currentBuild.result == 'SUCCESS'
+        }
+      }
+      steps {
+        dir(${env.reponame}) {
+          sh 'chmod +x mvnw'
+          sh './mvnw clean install'
+        }
+      }
+    }
+
+    stage ('Docker Build') {
+      when {
+        expression {
+          currentBuild.result == 'SUCCESS'
+        }
+      }
+       steps {
+         dir(${env.reponame}) {
+            docker.withRegistry('https://docker.io/yokokarim','yoko_docker') {
+               def customImage = docker.build("yokokarim/${reponame}:latest")
+               customImage.push()
+            }
+         }
+       }
+    }
+
+  }
+
+}

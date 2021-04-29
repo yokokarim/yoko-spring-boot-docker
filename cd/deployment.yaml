@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: yoko-spring-boot-docker
+  namespace: default
+  labels:
+    app: yoko-spring-boot-docker
+spec:
+  selector:
+    matchLabels:
+      app: yoko-spring-boot-docker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: yoko-spring-boot-docker
+    spec:
+      containers:
+      - name: yoko-spring-boot-docker
+        image: yokokarim/yoko-spring-boot-docker:latest
+        ports:
+        - containerPort: 8080
+      nodeSelector:
+        nodetype: worker

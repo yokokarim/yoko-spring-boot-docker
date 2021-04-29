@@ -1,0 +1,19 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: yoko-spring-boot-docker
+  name: yoko-spring-boot-docker
+  namespace: default
+spec:
+  rules:
+    - host: yoko.spring.com
+      http:
+        paths:
+          - backend:
+              serviceName: yoko-spring-boot-docker
+              servicePort: 8080
+            path: /
